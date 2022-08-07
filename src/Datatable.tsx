@@ -8,6 +8,7 @@ export default function Datatable() {
 
     const [searchTerm, setSearchTerm] = useState("")
     const [filteredText, setFilteredText] = useState(Data)
+    const [searchDirector, setSearchDirector] = useState("")
 
     useMemo(() => {
         let localFilteredText = Data
@@ -21,18 +22,30 @@ export default function Datatable() {
             )
 
 
+        if (searchDirector !== "")
+            localFilteredText = localFilteredText.filter(
+                (item: any) =>
+                    JSON.stringify(item.director)
+                        .toLowerCase()
+                        .indexOf(searchDirector.toLowerCase()) !== -1
+            )
+
 
         setFilteredText(localFilteredText)
 
-    }, [searchTerm])
+    }, [searchTerm, searchDirector])
 
 
     return (
         <>
-            <input placeholder='search' onChange={(e) => {
+            <input placeholder='search term' onChange={(e) => {
                 setSearchTerm(e.target.value)
             }} />
 
+
+            <input placeholder='search director' onChange={(e) => {
+                setSearchDirector(e.target.value)
+            }} />
 
             <DataTable
                 columns={Columns}
